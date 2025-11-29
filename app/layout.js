@@ -1,9 +1,5 @@
 import './globals.css';
-import dynamic from 'next/dynamic';
-
-const ThemeProvider = dynamic(() => import('@/components/ThemeProvider'), {
-  ssr: false,
-});
+import ClientLayout from '@/components/ClientLayout';
 
 export const metadata = {
   title: 'Airer 1.0 - AI Character Chat',
@@ -38,7 +34,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="bg-black text-white transition-colors duration-300" suppressHydrationWarning>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
