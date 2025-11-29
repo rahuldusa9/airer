@@ -1,5 +1,9 @@
 import './globals.css';
-import ThemeProvider from '@/components/ThemeProvider';
+import dynamic from 'next/dynamic';
+
+const ThemeProvider = dynamic(() => import('@/components/ThemeProvider'), {
+  ssr: false,
+});
 
 export const metadata = {
   title: 'Airer 1.0 - AI Character Chat',

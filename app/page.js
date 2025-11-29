@@ -2,8 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import useAuthStore from '@/store/authStore';
-import IntroAnimation from '@/components/IntroAnimation';
+
+const IntroAnimation = dynamic(() => import('@/components/IntroAnimation'), {
+  ssr: false,
+});
 
 export default function Home() {
   const router = useRouter();
