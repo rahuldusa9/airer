@@ -18,6 +18,14 @@ const nextConfig = {
     }
     return config;
   },
+  // Force unique build ID to prevent cache issues
+  generateBuildId: async () => {
+    return `build-${Date.now()}`;
+  },
+  // Disable static optimization to prevent aggressive caching
+  experimental: {
+    serverActions: true,
+  },
 };
 
 module.exports = nextConfig;
