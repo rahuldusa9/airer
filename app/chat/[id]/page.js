@@ -70,6 +70,33 @@ export default function ChatPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const loadCharacterThoughts = useCallback(async (char, msgs) => {
+    if (!char || !msgs || msgs.length === 0) return;
+    
+    try {
+      setLoadingThoughts(true);
+      const response = await fetch('/api/character-thoughts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          characterId: char.id || char._id,
+          characterName: char.name,
+          userId: user?.id,
+          messages: msgs.slice(-10) // Last 10 messages
+        })
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setCharacterThoughts(data.thoughts);
+      }
+    } catch (error) {
+      console.error('Failed to load character thoughts:', error);
+    } finally {
+      setLoadingThoughts(false);
+    }
+  }, [user]);
+
   const loadChat = useCallback(async () => {
     if (!user) {
       console.log('Waiting for user...');
@@ -104,7 +131,7 @@ export default function ChatPage() {
     } finally {
       setLoading(false);
     }
-  }, [user, characterId]);
+  }, [user, characterId, loadCharacterThoughts, setMessages]);
 
   const handleSendMessage = async (content) => {
     if (!content.trim() || !character) return;
@@ -168,33 +195,6 @@ export default function ChatPage() {
       updateLastMessage('Sorry, I encountered an error. Please try again.');
     } finally {
       setStreaming(false);
-    }
-  };
-
-  const loadCharacterThoughts = async (char, msgs) => {
-    if (!char || !msgs || msgs.length === 0) return;
-    
-    try {
-      setLoadingThoughts(true);
-      const response = await fetch('/api/character-thoughts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          characterId: char.id || char._id,
-          characterName: char.name,
-          userId: user.id,
-          messages: msgs.slice(-10) // Last 10 messages
-        })
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setCharacterThoughts(data.thoughts);
-      }
-    } catch (error) {
-      console.error('Failed to load character thoughts:', error);
-    } finally {
-      setLoadingThoughts(false);
     }
   };
 
