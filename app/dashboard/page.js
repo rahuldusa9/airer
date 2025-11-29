@@ -56,7 +56,7 @@ export default function DashboardPage() {
       loadCharacters();
       loadStats();
     }
-  }, [user]);
+  }, [user, loadCharacters, loadStats]);
 
   const loadStats = async () => {
     try {

@@ -60,7 +60,7 @@ export default function ChatPage() {
     if (user && characterId) {
       loadChat();
     }
-  }, [user, characterId]);
+  }, [user, characterId, loadChat]);
 
   useEffect(() => {
     scrollToBottom();
@@ -350,11 +350,11 @@ export default function ChatPage() {
                 </div>
               ) : characterThoughts ? (
                 <p className="text-sm text-gray-300 leading-relaxed italic">
-                  "{characterThoughts}"
+                  &ldquo;{characterThoughts}&rdquo;
                 </p>
               ) : (
                 <p className="text-sm text-gray-500 text-center py-2">
-                  Start chatting to see {character?.name}'s thoughts about you
+                  Start chatting to see {character?.name}&apos;s thoughts about you
                 </p>
               )}
             </div>
@@ -408,7 +408,7 @@ export default function ChatPage() {
               </div>
               <h3 className="text-xl font-semibold mb-2">Start a conversation</h3>
               <p className="text-gray-400 max-w-md">
-                Say hello to {character?.name}! They're ready to chat with you about anything.
+                Say hello to {character?.name}! They&apos;re ready to chat with you about anything.
               </p>
             </div>
           ) : (

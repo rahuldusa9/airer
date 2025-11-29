@@ -37,14 +37,12 @@ function ParticleField() {
     return [new Float32Array(positions), new Float32Array(colors)];
   }, []);
 
-  if (useFrame) {
-    useFrame(({ clock }) => {
-      if (pointsRef.current) {
-        pointsRef.current.rotation.y = clock.getElapsedTime() * 0.02;
-        pointsRef.current.rotation.x = clock.getElapsedTime() * 0.01;
-      }
-    });
-  }
+  useFrame(({ clock }) => {
+    if (pointsRef.current && useFrame) {
+      pointsRef.current.rotation.y = clock.getElapsedTime() * 0.02;
+      pointsRef.current.rotation.x = clock.getElapsedTime() * 0.01;
+    }
+  });
 
   return (
     <points ref={pointsRef}>
