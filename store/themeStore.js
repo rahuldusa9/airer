@@ -1,7 +1,20 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
-const useThemeStore = create(
+// Define storage first to avoid circular reference during minification
+const getStorage = () => {
+  if (typeof window !== 'undefined') {
+    return localStorage;
+  }
+  return {
+    getItem: () => null,
+    setItem: () => {},
+    removeItem: () => {},
+  };
+};
+
+// Export immediately to prevent TDZ issues
+export default create(
   persist(
     (set) => ({
       theme: 'dark',
@@ -12,18 +25,7 @@ const useThemeStore = create(
     }),
     {
       name: 'theme-storage',
-      storage: createJSONStorage(() => {
-        if (typeof window !== 'undefined') {
-          return localStorage;
-        }
-        return {
-          getItem: () => null,
-          setItem: () => {},
-          removeItem: () => {},
-        };
-      }),
+      storage: createJSONStorage(getStorage),
     }
   )
 );
-
-export default useThemeStore;
