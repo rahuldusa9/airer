@@ -56,7 +56,7 @@ export default function DashboardPage() {
       loadCharacters();
       loadStats();
     }
-  }, [user]);
+  }, [user, loadCharacters, loadStats]);
 
   const loadStats = useCallback(async () => {
     try {
@@ -94,7 +94,7 @@ export default function DashboardPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [setLoading, setCharacters]);
 
   const handleLogout = async () => {
     localStorage.removeItem('auth_token');
