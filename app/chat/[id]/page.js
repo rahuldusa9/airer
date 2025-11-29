@@ -56,20 +56,6 @@ export default function ChatPage() {
     checkAuth();
   }, [router, setUser]);
 
-  useEffect(() => {
-    if (user && characterId) {
-      loadChat();
-    }
-  }, [user, characterId, loadChat]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const loadCharacterThoughts = useCallback(async (char, msgs) => {
     if (!char || !msgs || msgs.length === 0) return;
     
@@ -132,6 +118,20 @@ export default function ChatPage() {
       setLoading(false);
     }
   }, [user, characterId, loadCharacterThoughts, setMessages]);
+
+  useEffect(() => {
+    if (user && characterId) {
+      loadChat();
+    }
+  }, [user, characterId, loadChat]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const handleSendMessage = async (content) => {
     if (!content.trim() || !character) return;
