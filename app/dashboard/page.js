@@ -102,6 +102,21 @@ export default function DashboardPage() {
     router.push('/auth/login');
   };
 
+  const handleDelete = useCallback(async (characterId) => {
+    try {
+      const token = localStorage.getItem('auth_token');
+      const response = await fetch(`/api/characters/${characterId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        loadCharacters();
+      }
+    } catch (error) {
+      console.error('Failed to delete:', error);
+    }
+  }, [loadCharacters]);
+
   const filteredCharacters = characters.filter(char => 
     char.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     char.personality?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -539,19 +554,4 @@ export default function DashboardPage() {
       </div>
     </div>
   );
-
-  async function handleDelete(characterId) {
-    try {
-      const token = localStorage.getItem('auth_token');
-      const response = await fetch(`/api/characters/${characterId}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (response.ok) {
-        loadCharacters();
-      }
-    } catch (error) {
-      console.error('Failed to delete:', error);
-    }
-  }
 }
