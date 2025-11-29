@@ -242,7 +242,7 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-[#1a1d29] text-white overflow-hidden">
+    <div className="flex flex-col md:flex-row h-screen bg-[#1a1d29] text-white overflow-hidden overscroll-none">
       {/* Desktop Left Sidebar - Hidden on mobile */}
       <div className="hidden md:flex w-20 bg-[#7c3aed] flex-col items-center py-6 space-y-6">
         <button 
@@ -363,37 +363,35 @@ export default function ChatPage() {
       </div>
 
       {/* Chat Area */}
-      <div className="flex-1 flex flex-col bg-[#1a1d29] pb-20 md:pb-0">
-        {/* Chat Header */}
-        <div className="h-16 bg-[#252836] border-b border-white/5 flex items-center justify-between px-4">
-          <div className="flex items-center gap-3">
+      <div className="flex-1 flex flex-col bg-[#1a1d29] min-h-0">
+        {/* Chat Header - Fixed at top */}
+        <div className="sticky top-0 z-50 h-14 md:h-16 bg-[#252836] border-b border-white/5 flex items-center justify-between px-3 md:px-4 flex-shrink-0">
+          <div className="flex items-center gap-2">
             <button 
               onClick={() => router.push('/dashboard')}
               className="p-2 hover:bg-white/5 rounded-lg transition"
               title="Back to dashboard"
             >
-              <ArrowLeft size={20} />
+              <ArrowLeft size={20} className="text-white" />
             </button>
-            <h1 className="text-lg font-semibold">{character?.name}</h1>
+            <h1 className="text-base md:text-lg font-semibold truncate">{character?.name}</h1>
           </div>
           <div className="flex items-center gap-2">
-            {/* Three-dot menu for mobile */}
-            <div className="relative">
-              <button 
-                onClick={() => setShowStats(!showStats)}
-                className="p-2 hover:bg-white/5 rounded-lg transition"
-                title="Options"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                </svg>
-              </button>
-            </div>
+            {/* Three-dot menu */}
+            <button 
+              onClick={() => setShowStats(!showStats)}
+              className="p-2 hover:bg-white/5 rounded-lg transition"
+              title="Options"
+            >
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+              </svg>
+            </button>
           </div>
         </div>
 
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto pb-28 md:pb-0">
+        {/* Messages - Scrollable area */}
+        <div className="flex-1 overflow-y-auto overscroll-contain" style={{WebkitOverflowScrolling: 'touch'}}>
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full px-4 md:px-6 text-center">
               <div className={`w-20 h-20 mb-6 rounded-full bg-gradient-to-br ${getAvatarGradient(character?.name)} flex items-center justify-center`}>
@@ -441,8 +439,8 @@ export default function ChatPage() {
           )}
         </div>
 
-        {/* Input Area - Fixed at bottom on mobile */}
-        <div className="sticky md:relative bottom-0 bg-[#252836] border-t border-white/5 p-3 md:p-4 z-40">
+        {/* Input Area - Sticky at bottom */}
+        <div className="sticky bottom-0 z-40 bg-[#252836] border-t border-white/5 p-3 md:p-4 flex-shrink-0">
           <div className="max-w-4xl mx-auto">
             <ChatInput
               onSend={handleSendMessage}
