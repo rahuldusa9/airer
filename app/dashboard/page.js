@@ -506,7 +506,6 @@ export default function DashboardPage() {
           onClose={() => setShowCreateModal(false)}
           onSuccess={(character) => {
             loadCharacters();
-            router.push(`/chat/${character.id}`);
           }}
         />
       )}

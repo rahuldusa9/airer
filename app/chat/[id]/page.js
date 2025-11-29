@@ -365,37 +365,30 @@ export default function ChatPage() {
       {/* Chat Area */}
       <div className="flex-1 flex flex-col bg-[#1a1d29] pb-20 md:pb-0">
         {/* Chat Header */}
-        <div className="h-16 bg-[#252836] border-b border-white/5 flex items-center justify-between px-4 md:px-6">
+        <div className="h-16 bg-[#252836] border-b border-white/5 flex items-center justify-between px-4">
           <div className="flex items-center gap-3">
-            {/* Mobile back button */}
             <button 
               onClick={() => router.push('/dashboard')}
-              className="md:hidden p-2 hover:bg-white/5 rounded-lg transition"
+              className="p-2 hover:bg-white/5 rounded-lg transition"
+              title="Back to dashboard"
             >
               <ArrowLeft size={20} />
             </button>
             <h1 className="text-lg font-semibold">{character?.name}</h1>
           </div>
           <div className="flex items-center gap-2">
-            <button 
-              onClick={handleExport}
-              className="p-2 hover:bg-white/5 rounded-lg transition hidden md:block"
-              title="Export to WhatsApp"
-            >
-              <Download size={20} />
-            </button>
-            <button 
-              onClick={handleShare}
-              className="p-2 hover:bg-white/5 rounded-lg transition"
-              title="Share via WhatsApp"
-            >
-              <Share2 size={20} />
-            </button>
-            <button className="p-2 hover:bg-white/5 rounded-lg transition">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-              </svg>
-            </button>
+            {/* Three-dot menu for mobile */}
+            <div className="relative">
+              <button 
+                onClick={() => setShowStats(!showStats)}
+                className="p-2 hover:bg-white/5 rounded-lg transition"
+                title="Options"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -456,48 +449,6 @@ export default function ChatPage() {
               disabled={sending}
             />
           </div>
-        </div>
-      </div>
-
-      {/* Mobile Bottom Navigation - Hidden when keyboard is open */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#7c3aed] border-t border-white/10 z-30">
-        <div className="flex items-center justify-around px-2 py-2.5">
-          <button 
-            onClick={() => router.push('/dashboard')}
-            className="flex flex-col items-center gap-1 px-4 py-2 rounded-lg hover:bg-white/10 transition"
-          >
-            <ArrowLeft size={20} />
-            <span className="text-xs">Back</span>
-          </button>
-          
-          <button 
-            onClick={handleExport}
-            className="flex flex-col items-center gap-1 px-4 py-2 rounded-lg hover:bg-white/10 transition"
-          >
-            <Download size={20} />
-            <span className="text-xs">Export</span>
-          </button>
-
-          <button 
-            onClick={handleShare}
-            className="flex flex-col items-center gap-1 px-4 py-2 rounded-lg hover:bg-white/10 transition"
-          >
-            <Share2 size={20} />
-            <span className="text-xs">Share</span>
-          </button>
-
-          <div className="flex flex-col items-center gap-1">
-            <ThemeToggle />
-            <span className="text-xs">Theme</span>
-          </div>
-
-          <button 
-            onClick={handleClearChat}
-            className="flex flex-col items-center gap-1 px-4 py-2 rounded-lg hover:bg-white/10 transition"
-          >
-            <Trash2 size={20} />
-            <span className="text-xs">Clear</span>
-          </button>
         </div>
       </div>
     </div>
