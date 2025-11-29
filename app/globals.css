@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dark theme (default) */
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #1a1d29;
+  --bg-tertiary: #252836;
+  --text-primary: #ffffff;
+  --text-secondary: #9ca3af;
+  --text-tertiary: #6b7280;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --input-bg: rgba(0, 0, 0, 0.5);
+  --hover-bg: rgba(255, 255, 255, 0.1);
+}
+
+/* Light theme */
+html.light {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f3f4f6;
+  --bg-tertiary: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-tertiary: #6b7280;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --glass-bg: rgba(0, 0, 0, 0.03);
+  --input-bg: rgba(255, 255, 255, 0.9);
+  --hover-bg: rgba(0, 0, 0, 0.05);
+}
+
+/* Apply light theme overrides */
+html.light body {
+  background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%) !important;
+}
+
+html.light .bg-\[\#1a1d29\] {
+  background-color: #ffffff !important;
+}
+
+html.light .bg-\[\#252836\] {
+  background-color: #f3f4f6 !important;
+}
+
+html.light .text-white {
+  color: #111827 !important;
+}
+
+html.light .text-gray-300 {
+  color: #4b5563 !important;
+}
+
+html.light .text-gray-400 {
+  color: #6b7280 !important;
+}
+
+html.light .text-gray-500 {
+  color: #9ca3af !important;
+}
+
+html.light .border-white\/5,
+html.light .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Message bubbles in light mode */
+html.light .bg-\[\#2d3748\],
+html.light .bg-\[\#3d4451\] {
+  background-color: #e5e7eb !important;
+  color: #111827 !important;
+}
+
+/* Input fields in light mode */
+html.light input,
+html.light textarea {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+  border-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+/* Ensure message text stays white in user bubbles */
+html.light .bg-\[\#7c3aed\] .text-sm,
+html.light .bg-\[\#7c3aed\] p {
+  color: #ffffff !important;
+}
+
+/* Character message bubbles in light mode */
+html.light .bg-\[\#2d3142\] {
+  background-color: #f3f4f6 !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+html.light .bg-\[\#2d3142\] .text-sm,
+html.light .bg-\[\#2d3142\] p {
+  color: #111827 !important;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1d29 100%);
+  min-height: 100vh;
+  transition: all 0.3s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.glow-text {
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+}
+
+.neon-border {
+  border: 2px solid currentColor;
+  box-shadow: 0 0 10px currentColor, inset 0 0 10px currentColor;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+html.light .glass-effect {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+html.light ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 243, 255, 0.5);
+  border-radius: 4px;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 243, 255, 0.8);
+}
+
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.8);
+}
