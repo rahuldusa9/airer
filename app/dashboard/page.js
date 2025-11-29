@@ -19,6 +19,44 @@ export default function DashboardPage() {
   const [stats, setStats] = useState(null);
   const [showStats, setShowStats] = useState(false);
 
+  const loadStats = useCallback(async () => {
+    try {
+      const token = localStorage.getItem('auth_token');
+      const response = await fetch('/api/stats', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setStats(data.stats);
+      }
+    } catch (error) {
+      console.error('Failed to load stats:', error);
+    }
+  }, []);
+
+  const loadCharacters = useCallback(async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem('auth_token');
+      
+      const response = await fetch('/api/characters', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        const { characters } = await response.json();
+        setCharacters(characters);
+      }
+    } catch (error) {
+      console.error('Failed to load characters:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [setLoading, setCharacters]);
+
   useEffect(() => {
     const checkAuth = async () => {
       const token = localStorage.getItem('auth_token');
@@ -57,44 +95,6 @@ export default function DashboardPage() {
       loadStats();
     }
   }, [user, loadCharacters, loadStats]);
-
-  const loadStats = useCallback(async () => {
-    try {
-      const token = localStorage.getItem('auth_token');
-      const response = await fetch('/api/stats', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setStats(data.stats);
-      }
-    } catch (error) {
-      console.error('Failed to load stats:', error);
-    }
-  }, []);
-
-  const loadCharacters = useCallback(async () => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem('auth_token');
-      
-      const response = await fetch('/api/characters', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        const { characters } = await response.json();
-        setCharacters(characters);
-      }
-    } catch (error) {
-      console.error('Failed to load characters:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [setLoading, setCharacters]);
 
   const handleLogout = async () => {
     localStorage.removeItem('auth_token');
