@@ -4,6 +4,12 @@ import ThemeProvider from '@/components/ThemeProvider';
 export const metadata = {
   title: 'Airer 1.0 - AI Character Chat',
   description: 'Create and chat with AI characters with unique personalities',
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+  },
 };
 
 export default function RootLayout({ children }) {
