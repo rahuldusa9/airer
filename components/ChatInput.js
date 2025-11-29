@@ -54,7 +54,7 @@ export default function ChatInput({ onSend, disabled, placeholder = "Type your m
     <form onSubmit={handleSubmit} className="relative flex items-center gap-2">
       {/* Emoji Picker */}
       {showEmojiPicker && (
-        <div ref={emojiPickerRef}>
+        <div ref={emojiPickerRef} className="absolute bottom-full left-0 mb-2 z-50">
           <EmojiPicker 
             onEmojiSelect={handleEmojiSelect}
             onClose={() => setShowEmojiPicker(false)}
@@ -66,10 +66,10 @@ export default function ChatInput({ onSend, disabled, placeholder = "Type your m
       <button
         type="button"
         onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-        className="p-3.5 rounded-xl bg-[#1a1d29] border border-white/10 hover:bg-white/5 transition text-gray-400 hover:text-white"
+        className="p-2.5 md:p-3.5 rounded-xl bg-[#1a1d29] border border-white/10 hover:bg-white/5 transition text-gray-400 hover:text-white flex-shrink-0"
         title="Add emoji"
       >
-        <Smile size={20} />
+        <Smile size={18} className="md:w-5 md:h-5" />
       </button>
 
       {/* Input Field */}
@@ -80,16 +80,16 @@ export default function ChatInput({ onSend, disabled, placeholder = "Type your m
         onChange={(e) => setMessage(e.target.value)}
         placeholder={placeholder}
         disabled={disabled}
-        className="flex-1 px-5 py-3.5 rounded-xl bg-[#1a1d29] border border-white/10 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition text-white placeholder-gray-500 disabled:opacity-50"
+        className="flex-1 px-3 py-2.5 md:px-5 md:py-3.5 rounded-xl bg-[#1a1d29] border border-white/10 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition text-white placeholder-gray-500 disabled:opacity-50 text-sm md:text-base"
       />
 
       {/* Send Button */}
       <button
         type="submit"
         disabled={!message.trim() || disabled}
-        className="p-3.5 rounded-xl bg-[#7c3aed] hover:bg-[#6d28d9] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+        className="p-2.5 md:p-3.5 rounded-xl bg-[#7c3aed] hover:bg-[#6d28d9] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center flex-shrink-0"
       >
-        <Send size={20} />
+        <Send size={18} className="md:w-5 md:h-5" />
       </button>
     </form>
   );

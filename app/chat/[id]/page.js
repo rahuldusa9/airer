@@ -400,7 +400,7 @@ export default function ChatPage() {
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto pb-28 md:pb-0">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full px-4 md:px-6 text-center">
               <div className={`w-20 h-20 mb-6 rounded-full bg-gradient-to-br ${getAvatarGradient(character?.name)} flex items-center justify-center`}>
@@ -448,8 +448,8 @@ export default function ChatPage() {
           )}
         </div>
 
-        {/* Input Area */}
-        <div className="bg-[#252836] border-t border-white/5 p-4">
+        {/* Input Area - Fixed at bottom on mobile */}
+        <div className="sticky md:relative bottom-0 bg-[#252836] border-t border-white/5 p-3 md:p-4 z-40">
           <div className="max-w-4xl mx-auto">
             <ChatInput
               onSend={handleSendMessage}
@@ -459,9 +459,9 @@ export default function ChatPage() {
         </div>
       </div>
 
-      {/* Mobile Bottom Navigation */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#7c3aed] border-t border-white/10 safe-area-inset-bottom z-50">
-        <div className="flex items-center justify-around px-2 py-3">
+      {/* Mobile Bottom Navigation - Hidden when keyboard is open */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#7c3aed] border-t border-white/10 z-30">
+        <div className="flex items-center justify-around px-2 py-2.5">
           <button 
             onClick={() => router.push('/dashboard')}
             className="flex flex-col items-center gap-1 px-4 py-2 rounded-lg hover:bg-white/10 transition"
