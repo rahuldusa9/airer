@@ -1,0 +1,7 @@
+# Build artifacts
+.next
+node_modules
+.env.local
+
+# Test files
+test.html
