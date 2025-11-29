@@ -5,6 +5,12 @@ import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import useAuthStore from '@/store/authStore';
 
+console.log(
+  "%cPAGE RENDER:",
+  "color: yellow; font-size:20px;",
+  typeof window === "undefined" ? "SERVER" : "CLIENT"
+);
+
 const IntroAnimation = dynamic(() => import('@/components/IntroAnimation'), {
   ssr: false,
 });
