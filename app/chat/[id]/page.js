@@ -22,7 +22,9 @@ export default function ChatPage() {
   const [sending, setSending] = useState(false);
   const [characterThoughts, setCharacterThoughts] = useState('');
   const [loadingThoughts, setLoadingThoughts] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const messagesEndRef = useRef(null);
+  const menuRef = useRef(null);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -55,6 +57,21 @@ export default function ChatPage() {
 
     checkAuth();
   }, [router, setUser]);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowMenu(false);
+      }
+    }
+    if (showMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showMenu]);
 
   const loadCharacterThoughts = useCallback(async (char, msgs) => {
     if (!char || !msgs || msgs.length === 0) return;
@@ -378,15 +395,64 @@ export default function ChatPage() {
           </div>
           <div className="flex items-center gap-2">
             {/* Three-dot menu */}
-            <button 
-              onClick={() => setShowStats(!showStats)}
-              className="p-2 hover:bg-white/5 rounded-lg transition"
-              title="Options"
-            >
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-              </svg>
-            </button>
+            <div className="relative" ref={menuRef}>
+              <button 
+                onClick={() => setShowMenu(!showMenu)}
+                className="p-2 hover:bg-white/5 rounded-lg transition"
+                title="Options"
+              >
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                </svg>
+              </button>
+              
+              {/* Dropdown Menu */}
+              {showMenu && (
+                <div className="absolute right-0 top-full mt-2 w-48 bg-[#252836] border border-white/10 rounded-lg shadow-xl z-50 overflow-hidden">
+                  <button
+                    onClick={() => {
+                      handleExport();
+                      setShowMenu(false);
+                    }}
+                    className="w-full px-4 py-3 text-left hover:bg-white/5 transition flex items-center gap-3 text-sm"
+                  >
+                    <Download size={18} />
+                    Export Chat
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleShare();
+                      setShowMenu(false);
+                    }}
+                    className="w-full px-4 py-3 text-left hover:bg-white/5 transition flex items-center gap-3 text-sm"
+                  >
+                    <Share2 size={18} />
+                    Share via WhatsApp
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowStats(!showStats);
+                      setShowMenu(false);
+                    }}
+                    className="w-full px-4 py-3 text-left hover:bg-white/5 transition flex items-center gap-3 text-sm md:hidden"
+                  >
+                    <User size={18} />
+                    Character Info
+                  </button>
+                  <div className="border-t border-white/10"></div>
+                  <button
+                    onClick={() => {
+                      handleClearChat();
+                      setShowMenu(false);
+                    }}
+                    className="w-full px-4 py-3 text-left hover:bg-red-500/10 text-red-400 transition flex items-center gap-3 text-sm"
+                  >
+                    <Trash2 size={18} />
+                    Clear Chat
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
