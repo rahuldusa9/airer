@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import useAuthStore from '@/store/authStore';
 import useCharacterStore from '@/store/characterStore';
@@ -56,9 +56,9 @@ export default function DashboardPage() {
       loadCharacters();
       loadStats();
     }
-  }, [user, loadCharacters, loadStats]);
+  }, [user]);
 
-  const loadStats = async () => {
+  const loadStats = useCallback(async () => {
     try {
       const token = localStorage.getItem('auth_token');
       const response = await fetch('/api/stats', {
@@ -71,9 +71,9 @@ export default function DashboardPage() {
     } catch (error) {
       console.error('Failed to load stats:', error);
     }
-  };
+  }, []);
 
-  const loadCharacters = async () => {
+  const loadCharacters = useCallback(async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('auth_token');
@@ -94,7 +94,7 @@ export default function DashboardPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const handleLogout = async () => {
     localStorage.removeItem('auth_token');
