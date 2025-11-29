@@ -377,41 +377,53 @@ export default function DashboardPage() {
             </div>
           </div>
         ) : (
-          /* Default Welcome View */
-          <div className="flex-1 flex items-center justify-center">
-            <div className="text-center max-w-md px-6">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
-                <MessageSquare size={36} />
+          /* Character Grid View for Mobile */
+          <div className="p-4 md:p-8 max-w-6xl mx-auto w-full">
+            <div className="mb-6">
+              <h2 className="text-2xl md:text-3xl font-bold mb-2">Your AI Characters</h2>
+              <p className="text-gray-400">@{user?.username || user?.email}</p>
+            </div>
+
+            {/* Mobile Search Bar */}
+            <div className="mb-6 md:hidden">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search characters..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-[#252836] rounded-lg pl-10 pr-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 border border-white/10"
+                />
+                <Search className="w-5 h-5 absolute left-3 top-3.5 text-gray-500" />
               </div>
-              <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Welcome to Airer
-              </h2>
-              <p className="text-sm text-gray-400 mb-6">
-                @{user?.username || user?.email}
-              </p>
+            </div>
 
-              {/* Quick Stats */}
-              {stats && (
-                <div className="grid grid-cols-3 gap-4 mb-6 p-4 bg-white/5 rounded-lg border border-white/10">
-                  <div>
-                    <p className="text-2xl font-bold text-purple-400">{stats.totalCharacters}</p>
-                    <p className="text-xs text-gray-500">Characters</p>
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-blue-400">{stats.totalMessages}</p>
-                    <p className="text-xs text-gray-500">Messages</p>
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-pink-400">{stats.totalMemories}</p>
-                    <p className="text-xs text-gray-500">Memories</p>
-                  </div>
+            {/* Quick Stats */}
+            {stats && (
+              <div className="grid grid-cols-3 gap-3 mb-6">
+                <div className="bg-[#252836] border border-white/10 rounded-lg p-4 text-center">
+                  <p className="text-2xl font-bold text-purple-400">{stats.totalCharacters}</p>
+                  <p className="text-xs text-gray-500 mt-1">Characters</p>
                 </div>
-              )}
+                <div className="bg-[#252836] border border-white/10 rounded-lg p-4 text-center">
+                  <p className="text-2xl font-bold text-blue-400">{stats.totalMessages}</p>
+                  <p className="text-xs text-gray-500 mt-1">Messages</p>
+                </div>
+                <div className="bg-[#252836] border border-white/10 rounded-lg p-4 text-center">
+                  <p className="text-2xl font-bold text-pink-400">{stats.totalMemories}</p>
+                  <p className="text-xs text-gray-500 mt-1">Memories</p>
+                </div>
+              </div>
+            )}
 
-              <p className="text-gray-500 mb-8">
-                Select a character from the sidebar to start chatting, or create a new AI friend to begin your journey.
-              </p>
-              {characters.length === 0 && (
+            {/* Character Grid */}
+            {filteredCharacters.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
+                  <MessageSquare size={36} />
+                </div>
+                <h3 className="text-xl font-bold mb-2">No characters yet</h3>
+                <p className="text-gray-400 mb-6">Create your first AI character to get started</p>
                 <button
                   onClick={() => setShowCreateModal(true)}
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-purple-600 hover:bg-purple-700 font-medium transition"
@@ -419,8 +431,56 @@ export default function DashboardPage() {
                   <Plus size={20} />
                   Create Your First Character
                 </button>
-              )}
-            </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {filteredCharacters.map((character) => (
+                  <div
+                    key={character.id}
+                    onClick={() => router.push(`/chat/${character.id}`)}
+                    className="bg-[#252836] border border-white/10 rounded-xl p-5 hover:border-purple-500/50 cursor-pointer transition group"
+                  >
+                    <div className="flex items-start gap-4 mb-4">
+                      <div className="relative flex-shrink-0">
+                        <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${getAvatarGradient(character.name)} flex items-center justify-center text-2xl font-bold`}>
+                          {character.avatar_url ? (
+                            <img src={character.avatar_url} alt={character.name} className="w-full h-full rounded-full object-cover" />
+                          ) : (
+                            character.name[0]
+                          )}
+                        </div>
+                        <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-400 rounded-full border-2 border-[#252836]"></div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-lg mb-1 truncate">{character.name}</h3>
+                        <span className="text-xs text-gray-500">
+                          {character.created_at ? new Date(character.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : ''}
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-400 line-clamp-2 mb-4">{character.personality}</p>
+                    <div className="flex items-center justify-between">
+                      <button
+                        className="text-sm text-purple-400 hover:text-purple-300 transition"
+                      >
+                        Start Chat →
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (confirm(`Delete ${character.name}?`)) {
+                            handleDelete(character.id);
+                          }
+                        }}
+                        className="opacity-0 group-hover:opacity-100 p-2 hover:text-red-400 transition"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -429,7 +489,10 @@ export default function DashboardPage() {
       {showCreateModal && (
         <CreateCharacterModal
           onClose={() => setShowCreateModal(false)}
-          onCharacterCreated={loadCharacters}
+          onSuccess={(character) => {
+            loadCharacters();
+            router.push(`/chat/${character.id}`);
+          }}
         />
       )}
 

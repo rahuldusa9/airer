@@ -64,7 +64,7 @@ export default function CreateCharacterModal({ onClose, onSuccess }) {
 
       const { character } = await response.json();
       addCharacter(character);
-      onSuccess();
+      onSuccess(character);
       onClose();
     } catch (error) {
       console.error('Failed to create character:', error);
