@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-const useChatStore = create((set) => ({
+export default create((set) => ({
   messages: [],
   loading: false,
   streaming: false,
@@ -26,5 +26,3 @@ const useChatStore = create((set) => ({
   
   clearMessages: () => set({ messages: [] }),
 }));
-
-export default useChatStore;

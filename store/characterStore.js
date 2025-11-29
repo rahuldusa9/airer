@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-const useCharacterStore = create((set) => ({
+export default create((set) => ({
   characters: [],
   selectedCharacter: null,
   loading: false,
@@ -27,5 +27,3 @@ const useCharacterStore = create((set) => ({
     selectedCharacter: state.selectedCharacter?.id === id ? null : state.selectedCharacter,
   })),
 }));
-
-export default useCharacterStore;
